@@ -1,0 +1,29 @@
+$colors: (
+  primary-bg2-color: rgb(253,45,1),
+  primary-bg3-color: rgb(211,84,91),
+  primary-bg-color: rgb(24,42,72),
+  secondary-bg2-color: rgb(255,227,222),
+  secondary-bg-color: rgb(215,225,240),
+
+  primary-btn-color: white,
+  secondary-btn-color: rgb(24,42,72),
+  primary-btn-hover-color: #BF2100,
+
+  btn-hover-delete-color: rgb(253,45,1),
+  btn-hover-cancel-color: #686868,
+  btn-hover-submit-color: #42B251,
+  btn-hover-action-color: #008DE2,
+  btn-hover-reaction-color: #2c3e50,
+
+  primary-font-color: #2c3e50,
+  secondary-font-color: white,
+  secondary-font-lighter-color: rgba(255,255,255,.7),
+  third-font-color: #d3545b
+);
+
+$size: (
+  font-size: 0.9rem,
+  h1-font-size: 1.9rem,
+  h2-font-size: 1.3rem,
+  h3-font-size: 0.8rem
+)
