@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   Post.associate = function(models) {
     //associations can be defined here
     models.Post.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true});
+    models.Post.hasMany(models.Like, {onDelete: 'CASCADE', hooks:true});
     models.Post.belongsTo(models.User);
   };
   return Post;

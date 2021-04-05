@@ -48,11 +48,11 @@ exports.createPost = (req, res, next) => {
   if (postObject.attachment) {
     models.Post.create({content: postObject.content, UserId: postObject.UserId, attachment: postObject.attachment})
     .then(newPost => res.status(201).json({ message: 'Publication créée !' }))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(500).json({ error }));
   } else {
     models.Post.create({content: postObject.content, UserId: postObject.UserId, attachment: null})
     .then(newPost => res.status(201).json({ message: 'Publication créée !' }))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(500).json({ error }));
   };
 };
 
@@ -172,4 +172,79 @@ exports.deletePost = (req, res, next) => {
     }
   })
   .catch(error => res.status(404).json({ error: 'Publication non trouvée !' }));
+};
+
+exports.addLike = (req, res, next) => {
+  const currentUser = jwtUtils.getUserInfo(req.headers.authorization);
+  const userReaction = Number(req.body.like);
+  const like = models.Like.findOne({
+    where: {
+      UserId: currentUser.userId,
+      PostId: req.params.postId
+    }
+  })
+  .then(like => {
+    if (like === null) {
+      switch (userReaction) {
+        case 1:
+          models.Like.create({
+            value: 1,
+            PostId: req.params.postId,
+            UserId: currentUser.userId,
+          })
+          .then(() => res.status(201).json({ message: 'Like ajouté !' }))
+          .catch(error => res.status(500).json({ error }));
+          break;
+        case -1:
+          models.Like.create({
+            value: 0,
+            UserId: currentUser.userId,
+            PostId: req.params.id
+          })
+          .then(() => res.status(201).json({ message: 'Dislike ajouté !' }))
+          .catch(error => res.status(500).json({ error }));
+          break;
+        default:
+          res.status(400).json({ error });
+      }
+    } else {
+      switch (userReaction) {
+        case 1:
+          console.log('coucou');
+          console.log(like.UserId);
+          models.Like.update({value: 1}, {
+            where: {
+              UserId: like.UserId,
+              PostId: like.PostId
+            }
+          })
+          .then(() => res.status(200).json({ message: 'Like ajouté !' }))
+          .catch(error => res.status(500).json({ error }));
+          break;
+        case 0:
+          models.Like.destroy({
+            where: {
+              UserId: like.UserId,
+              PostId: like.PostId
+            }
+          })
+          .then(() => res.status(200).json({ message: 'Like/dislike supprimé !' }))
+          .catch(error => res.status(500).json({ error }));
+          break;
+        case -1:
+          models.Like.update({value: 0}, {
+            where: {
+              UserId: like.UserId,
+              PostId: like.PostId
+            }
+          })
+          .then(() => res.status(200).json({ message: 'Dislike ajouté !' }))
+          .catch(error => res.status(500).json({ error }));
+          break;
+        default:
+          res.status(400).jsons({ error });
+      }
+    }
+  })
+  .catch(error => res.status(500).json({ error }));
 };

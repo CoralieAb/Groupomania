@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwtUtils = require('../utils/jwtUtils');
+const maskData = require('maskdata');
 const models = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
@@ -8,12 +9,12 @@ exports.signup = (req, res, next) => {
   const email = req.body.email;
   const username = req.body.username;
   const buffer = Buffer.from(email);
-  const maskedEmail = buffer.toString('base64');
+  const bufferedEmail = buffer.toString('base64');
   const password = req.body.password;
   models.User.findOne({
     where: {
       [Op.or]: [
-        { email: maskedEmail },
+        { email: bufferedEmail },
         { username: username }
       ]
     }
@@ -24,7 +25,7 @@ exports.signup = (req, res, next) => {
       .then(hash => {
         const newUser = models.User.create({
           username: username,
-          email: maskedEmail,
+          email: bufferedEmail,
           password: hash,
           isAdmin: false
         })
@@ -42,10 +43,11 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const email = req.body.email;
   const buffer = Buffer.from(email);
-  const maskedEmail = buffer.toString('base64');
+  const bufferedEmail = buffer.toString('base64');
+  const maskedEmail = maskData.maskEmail2(email);
   const password = req.body.password;
   models.User.findOne({
-    where: {email: maskedEmail}
+    where: {email: bufferedEmail}
   })
   .then(user => {
     if (user) {
@@ -57,7 +59,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user.id,
             username: user.username,
-            email: email,
+            email: maskedEmail,
             token: jwtUtils.generateToken(user),
             isAdmin: user.isAdmin,
           });
@@ -78,10 +80,11 @@ exports.getUserProfile = (req, res, next) => {
     })
     .then(user => {
       const clearEmail = Buffer.from(user.email, 'base64').toString('utf8');
+      maskedEmail = maskData.maskEmail2(clearEmail)
       res.status(200).json({
         userId: user.id,
         username: user.username,
-        email: clearEmail,
+        email: maskedEmail,
         isAdmin: user.isAdmin,
       });
     })

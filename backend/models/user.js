@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     //associations can be defined here
     models.User.hasMany(models.Post, {onDelete: 'CASCADE', hooks:true});
     models.User.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true});
+    models.Post.hasMany(models.Like, {onDelete: 'CASCADE', hooks:true});
   };
   User.beforeCreate((user, _ ) => {
     return user.id = uuidv4();

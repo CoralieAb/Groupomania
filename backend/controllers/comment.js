@@ -3,13 +3,22 @@ const jwtUtils = require('../utils/jwtUtils');
 
 exports.createComment = (req, res, next) => {
   const currentUser = jwtUtils.getUserInfo(req.headers.authorization);
-  const newComment = models.Comment.create({
-    content: req.body.content,
-    UserId: currentUser.userId,
-    PostId: req.params.postId
+  models.Post.findOne({
+    where: {
+      id: req.params.postId,
+      UserId: currentUser.userId
+    }
   })
-  .then(newComment => res.status(201).json({ message: 'Commentaire crée !' }))
-  .catch(error => res.status(400).json({ error }));
+  .then(post => {
+    models.Comment.create({
+      content: req.body.content,
+      UserId: post.UserId,
+      PostId: post.id
+    })
+    .then(newComment => res.status(201).json({ message: 'Commentaire crée !' }))
+    .catch(error => res.status(500).json({ error }));
+  })
+  .catch(error => res.status(404).json({ error: 'Publication non trouvée !' }));
 };
 
 exports.modifyComment = (req, res, next) => {

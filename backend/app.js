@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
@@ -16,6 +17,8 @@ db.sequelize.authenticate()
 
 /* Création d'une application Express */
 const app = express();
+
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
