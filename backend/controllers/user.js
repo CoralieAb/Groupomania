@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const passwordValidator = require('../utils/passwordValidator');
 const jwtUtils = require('../utils/jwtUtils');
 const maskData = require('maskdata');
 const models = require('../models');
@@ -6,11 +7,15 @@ const { Op } = require('sequelize');
 const fs = require('fs');
 
 exports.signup = (req, res, next) => {
-  const email = req.body.email;
   const username = req.body.username;
+  const emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const email = req.body.email;
   const buffer = Buffer.from(email);
   const bufferedEmail = buffer.toString('base64');
   const password = req.body.password;
+  if (!passwordValidator.validate(password) || !emailregex.test(email)) {
+    return res.status(400).json({ error: "Email ou mot de passe incorrect !" });
+  }
   models.User.findOne({
     where: {
       [Op.or]: [
