@@ -86,8 +86,6 @@ export default {
       this.$emit('edit-mode-status', {
         editMode: false
       });
-      console.log(this.post);
-      console.log(this.postToEdit);
     },
     modifyPost() {
       console.log(this.post);

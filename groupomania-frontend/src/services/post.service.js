@@ -44,12 +44,12 @@ class PostService {
       });
     } else {
       return axios.put(API_URL + post.id, {
-          content: post.content,
-          postId: post.id,
-          userId: post.userId,
-          oldAttachment: post.oldAttachment
-        },
-        {headers: authHeader()}
+        content: post.content,
+        postId: post.id,
+        userId: post.userId,
+        oldAttachment: post.oldAttachment
+      },
+      {headers: authHeader()}
       );
     }
   }

@@ -1,7 +1,10 @@
 <template>
   <div class="commentsList">
     <div class="card comment" v-for="comment of commentsToShow" :key="comment.id">
-      <div class="card-body comment-body">
+      <div v-if="editMode && (comment.id == commentToEdit.id)">
+        <ModifyComment :commentToEdit="commentToEdit" @edit-mode-status="updateEditModeStatus" />
+      </div>
+      <div v-if="!editMode && (comment.id !== commentToEdit.id)" class="card-body comment-body">
         <div class = "comment-header">
           <div class = "comment-header__commentInfos">
             <strong class="card-title">{{comment.User.username}} </strong>
@@ -15,11 +18,12 @@
               <button v-if="(currentUser.userId === comment.UserId)"
                 type="button"
                 data-toggle="modal"
-                data-target="#editcommentModal"
+                data-target="#editCommentModal"
                 data-backdrop="static"
                 data-keyboard="false"
                 title="Modifier"
                 class="dropdown-item btn btn-sm btn-action btn-left fas fa-edit"
+                @click="getCommentToEdit"
                 :data-postid="comment.PostId" 
                 :data-userid="comment.UserId"
                 :data-commentid="comment.id">
@@ -38,7 +42,6 @@
             </div>
           </div>
         </div>
-        <hr>
         <div v-if="comment.content !== null" class="comment-content">
           <FormatContent :brutContent="comment.content"></FormatContent>
         </div>
@@ -49,15 +52,24 @@
 
 <script>
 import FormatContent from "@/components/FormatContent.vue";
+import ModifyComment from "@/components/ModifyComment.vue";
 import CommentService from '../services/comment.service';
 export default {
   name: 'CommentsList',
   components: {
-    FormatContent
+    FormatContent,
+    ModifyComment
   },
   props: {
     commentsToShow: {
-      required: true
+      required: true,
+      type: Array
+    }
+  },
+  data() {
+    return {
+      editMode: false,
+      commentToEdit: ''
     }
   },
   computed: {
@@ -80,6 +92,19 @@ export default {
         }
       );
     },
+    getCommentToEdit(e) {
+      for (let comment of this.commentsToShow) {
+        if (comment.id == e.target.dataset.commentid) {
+          this.commentToEdit = comment;
+          console.log(this.commentToEdit);
+        }
+      }
+      this.editMode = true;
+    },
+    updateEditModeStatus(payload) {
+      this.editMode = payload.editMode;
+      window.location.reload();
+    }
   }
 }
 </script>
@@ -109,14 +134,23 @@ export default {
     .dropdown-menu {
       min-width: 0;
     }
+    .dropdown-toggle {
+      padding: 0 8px;
+    }
+    .dropdown-toggle::after {
+      content: none;
+    }
   }
   &-body {
-    padding: 15px 15px;
+    padding: 8px 10px;
   }
   &-content {
     p {
       margin: 0;
     }
+  }
+  .text-muted {
+    color: black !important;
   }
 
   

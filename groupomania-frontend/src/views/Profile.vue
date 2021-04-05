@@ -76,3 +76,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.profile {
+  margin: auto;
+  max-width: 750px;
+  padding: 5px 0;
+  //background-color: #F1F1F1;
+}
+button {
+  border-color: red;
+}
+</style>

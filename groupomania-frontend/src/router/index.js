@@ -30,15 +30,15 @@ const routes = [
     name: 'Signup',
     component: () => import('../views/Signup.vue')
   },
-  {
+  /*{
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/Admin.vue')
-  },
+  },*/
   {
     path: '/unsubscribeconfirmation',
-    name: 'unsubscribeConfirm',
-    component: () => import('../views/UnsubscribeConfirm.vue')
+    name: 'unsubscribeConfirmation',
+    component: () => import('../views/UnsubscribeConfirmation.vue')
   }
 ]
 

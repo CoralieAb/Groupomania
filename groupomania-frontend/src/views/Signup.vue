@@ -1,5 +1,5 @@
 <template>
-  <div class="signup container">
+  <div class="signup">
     <div class="card">
       <img
         id="profile-img"
@@ -20,7 +20,7 @@
             />
             <div
               v-if="submitted && errors.has('username')"
-              class="alert-danger"
+              class="alert alert-danger"
             >{{errors.first('username')}}</div>
           </div>
           <div class="form-group">
@@ -35,7 +35,7 @@
             />
             <div
               v-if="submitted && errors.has('email')"
-              class="alert-danger"
+              class="alert alert-danger"
             >{{errors.first('email')}}</div>
           </div>
           <div class="form-group">
@@ -49,7 +49,7 @@
             />
             <div
               v-if="submitted && errors.has('password')"
-              class="alert-danger"
+              class="alert alert-danger"
             >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
@@ -99,13 +99,12 @@ export default {
               console.log(data);
               this.message = data.message;
               this.successful = true;
-              console.log(this.message);
+              this.$router.push('/login');
             },
             error => {
               console.log(error);
               this.message = error.response.data.error || error.message;
               this.successful = false;
-              console.log(this.message);
             }
           );
         }
@@ -117,6 +116,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../scss/_variables.scss';
+.signup {
+  margin-top: 30px;
+}
+
 label {
   display: block;
   margin-top: 10px;

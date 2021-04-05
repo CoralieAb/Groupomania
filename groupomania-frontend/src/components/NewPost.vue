@@ -2,17 +2,17 @@
   <div id="newPost" class="card">
     <form @submit.prevent="createPost" class="card-body">
       <div class="form-group">
-        <label for="postContent" class="sr-only">Description</label>
+        <label for="newPostContent" class="sr-only">Description</label>
         <textarea
           v-model="post.content"
           class="form-control"
           placeholder="Que voulez-vous dire?"
-          name="postContent"
-          id="postContent"
+          name="newPostContent"
+          id="newPostContent"
           rows=4
         ></textarea>
         <div
-          v-if="errors.has('postContent')"
+          v-if="errors.has('newPostContent')"
           class="alert alert-danger"
           role="alert"
         >Description is required!</div>
@@ -34,7 +34,7 @@
         >Picture is required!</div>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-action btn-block">Publier</button>
+        <button :disabled="((post.content == null) || (post.content == '')) && (post.attachment == null)" type="submit" class="btn btn-action btn-block">Publier</button>
       </div>
     </form>
   </div>
@@ -49,13 +49,13 @@ export default {
       post: {
         content: null,
         attachment: null,
-      }
+      },
     };
   },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    }
+    },
   },
   methods: {
     onFileSelected(e) {

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'UnsubscribeConfirm',
+  name: 'UnsubscribeConfirmation',
   data() {
     return {
       user: '',

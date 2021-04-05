@@ -1,5 +1,5 @@
 <template>
-  <div class="login container">
+  <div class="login">
     <div class="card">
       <img
         id="profile-img"
@@ -11,7 +11,7 @@
           <label for="email">E-mail</label>
           <input
             v-model="user.email"
-            v-validate="'required'"
+            v-validate="'required|email'"
             type="email"
             class="form-control"
             name="email"
@@ -21,7 +21,7 @@
             v-if="errors.has('email')"
             class="alert alert-danger"
             role="alert"
-          >Email is required!</div>
+          >{{errors.first('email')}}</div>
         </div>
         <div class="form-group">
           <label for="password">Mot de passe</label>
@@ -101,6 +101,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../scss/_variables.scss';
+.login {
+  margin-top: 30px;
+}
+
 label {
   display: block;
   margin-top: 10px;

@@ -2,18 +2,18 @@
   <div id="newComment" class="card comment-card">
     <form @submit.prevent="createComment" class="card-body">
       <div class="form-group">
-        <label for="commentContent" class="sr-only">Description</label>
+        <label for="newCommentContent" class="sr-only">Description</label>
         <textarea
           v-model="comment.content"
           class="form-control"
           placeholder="Ecrivez ici votre commentaire..."
-          name="commentContent"
-          id="commentContent"
+          name="newCommentContent"
+          id="newCommentContent"
           rows=3
           required
         ></textarea>
         <div
-          v-if="errors.has('commentContent')"
+          v-if="errors.has('newCommentContent')"
           class="alert alert-danger"
           role="alert"
         >Comment is required!</div>

@@ -14,9 +14,9 @@
               <i class="fas fa-home"></i> Accueil
             </router-link>
           </li>
-          <li v-if="showAdminBoard" class="nav-item">
+          <!--<li v-if="showAdminBoard" class="nav-item">
             <router-link to="/admin" class="nav-link">Admin</router-link>
-          </li>
+          </li>-->
         </ul>
         <ul v-if="!currentUser" class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -49,7 +49,7 @@
         </ul>
       </div>
     </nav>
-    <main class="container">
+    <main class="container-fluid">
       <router-view/>
     </main>
   </div>
@@ -81,7 +81,7 @@ export default {
 @import './scss/_variables.scss';
 body {
   overflow: auto;
-  background-color: #F1F1F1;
+  //background-color: #F1F1F1;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -89,8 +89,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: map-get($colors, primary-font-color);
   margin: auto;
-  .container {
-    padding: 10px;
+  main {
+    padding: 0;
   }
   h1 {
     text-align: center;
@@ -155,22 +155,22 @@ nav {
   background-color: map-get($colors, primary-btn-color);
   color: map-get($colors, primary-font-color);
   transition: 0.5s;
-  &:hover {
+  &:enabled:hover {
     transition-timing-function: ease;
   }
-  &-delete:hover {
+  &-delete:enabled:hover {
     background-color: map-get($colors, btn-hover-delete-color);
     color: map-get($colors, secondary-font-color);
   }
-  &-cancel:hover {
+  &-cancel:enabled:hover {
     background-color: map-get($colors, btn-hover-cancel-color);
     color: map-get($colors, secondary-font-color);
   }
-  &-action:hover {
+  &-action:enabled:hover {
     background-color: map-get($colors, btn-hover-action-color);
     color: map-get($colors, secondary-font-color);
   }
-  &-reaction:hover {
+  &-reaction:enabled:hover {
     background-color: map-get($colors, btn-hover-reaction-color);
     color: map-get($colors, secondary-font-color);
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="wall">
-    <div v-if="this.editMode">
+    <div v-if="editMode">
       <ModifyPost :postToEdit="postToEdit" @edit-mode-status="updateEditModeStatus" />
     </div>
     <NewPost />
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div v-if="item.content !== null" class="card-body card-content">
-          <FormatContent :brutContent="item.content"></FormatContent>
+          <FormatContentTest :brutContent="item.content"></FormatContentTest>
         </div>
         <img :src="item.attachment" class="card-img-bottom" alt=""/>
         <div class="card-footer text-muted">
@@ -63,7 +63,7 @@
 <script>
 import NewPost from "@/components/NewPost.vue";
 import ModifyPost from "@/components/ModifyPost.vue";
-import FormatContent from "@/components/FormatContent.vue";
+import FormatContentTest from "@/components/FormatContentTest.vue";
 import PostService from '../services/post.service';
 import NewComment from '../components/NewComment.vue';
 import CommentsList from '../components/CommentsList.vue';
@@ -73,7 +73,7 @@ export default {
   components: {
     NewPost,
     ModifyPost,
-    FormatContent,
+    FormatContentTest,
     NewComment,
     CommentsList
   },
@@ -180,6 +180,8 @@ export default {
 .wall {
   margin: auto;
   max-width: 750px;
+  padding: 5px 0;
+  //background-color: #F1F1F1;
 }
 #postList {
   margin-top: 1rem;

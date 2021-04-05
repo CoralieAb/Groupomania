@@ -16,6 +16,16 @@ class CommentService {
       {headers: authHeader()}
     );
   }
+  modifyComment(comment) {
+    return axios.put(API_URL + comment.postId + '/' + comment.id, {
+      content: comment.content,
+      commentId: comment.id,
+      postId: comment.postId,
+      userId: comment.userId
+    },
+    {headers: authHeader()}
+    );
+  }
   deleteComment(postId, userId, commentId) {
     return axios.delete(API_URL + postId + '/' + commentId, {
       headers: authHeader(),
@@ -26,40 +36,6 @@ class CommentService {
       }
     });
   }
-  /*modifyPost(post, currentUser) {
-    if (typeof post.newAttachment === "object") {
-      let fd = new FormData();
-      fd.append("postId", post.id);
-      fd.append("content", post.content);
-      fd.append("attachment", post.newAttachment);
-      fd.append("oldAttachment", post.oldAttachment);
-      fd.append("userId", post.userId);
-      return axios.put(API_URL + post.id, fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${currentUser.token}`
-        }
-      });
-    } else {
-      return axios.put(API_URL + post.id, {
-          content: post.content,
-          postId: post.id,
-          userId: post.userId,
-          oldAttachment: post.oldAttachment
-        },
-        {headers: authHeader()}
-      );
-    }
-  }
-  deletePost(postId, userId) {
-    return axios.delete(API_URL + postId, {
-      headers: authHeader(),
-      data: {
-        postId: postId,
-        userId: userId
-      }
-    });
-  }*/
 }
 
 export default new CommentService();
