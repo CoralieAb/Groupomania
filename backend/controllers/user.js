@@ -35,7 +35,7 @@ exports.signup = (req, res, next) => {
           isAdmin: false
         })
         .then(newUser => res.status(201).json({ message: 'Utilisateur crée ! username: ' + newUser.username }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(500).json({ error: `L'utilisateur n'a pas été crée ! Veuillez réessayer !` }));
       })
       .catch(error => res.status(500).json({ error }));
     } else {

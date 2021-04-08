@@ -36,15 +36,15 @@
           </div>
         </div>
         <div v-if="item.content !== null" class="card-body card-content">
-          <FormatContentTest :brutContent="item.content"></FormatContentTest>
+          <FormatContent :brutContent="item.content"></FormatContent>
         </div>
         <img :src="item.attachment" class="card-img-bottom" alt=""/>
         <div class="card-footer text-muted">
-          <div class="btn-group" role="group" aria-label="PostReactions">
+          <!--<div class="btn-group" role="group" aria-label="PostReactions">
             <button class="btn btn-sm btn-reaction likes fas fa-heart"> {{item.likes}}</button>
             <button class="btn btn-sm btn-reaction dislikes fas fa-heart-broken"> {{item.dislikes}}</button>          
-          </div>
-          <button type="button" class="btn btn-sm btn-action" @click="getPostToComment" :data-postid="item.id" :data-userid="item.UserId">Commenter</button>
+          </div>-->
+          <button type="button" class="btn btn-block btn-action" @click="getPostToComment" :data-postid="item.id" :data-userid="item.UserId">Commenter</button>
         </div>
         <div v-if="(item.Comments.length > 0)" class="card-footer card-footer-secondary">
           <a :href="'#post'+item.id" :id="'show-comments-'+item.id" @click="showComments" :data-postid="item.id">Afficher les commentaires ({{item.Comments.length}})</a>
@@ -63,7 +63,7 @@
 <script>
 import NewPost from "@/components/NewPost.vue";
 import ModifyPost from "@/components/ModifyPost.vue";
-import FormatContentTest from "@/components/FormatContentTest.vue";
+import FormatContent from "@/components/FormatContent.vue";
 import PostService from '../services/post.service';
 import NewComment from '../components/NewComment.vue';
 import CommentsList from '../components/CommentsList.vue';
@@ -73,7 +73,7 @@ export default {
   components: {
     NewPost,
     ModifyPost,
-    FormatContentTest,
+    FormatContent,
     NewComment,
     CommentsList
   },
@@ -148,7 +148,6 @@ export default {
           if (post.isShowComments == false) {
             post.isShowComments = true;
             this.isCommentsShowing.push(post);
-            //this.commentsPostToShow = post;
             showCommentElt.textContent = "Masquer les commentaires";
           } else {
             post.isShowComments = false;
@@ -212,7 +211,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    //padding: 5px 10px;
     color: map-get($colors, secondary-font-color);
     &-secondary {
       justify-content: center;
