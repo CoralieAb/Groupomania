@@ -6,7 +6,6 @@ exports.createComment = (req, res, next) => {
   models.Post.findOne({
     where: {
       id: req.params.postId,
-      UserId: currentUser.userId
     }
   })
   .then(post => {
